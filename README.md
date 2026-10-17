@@ -355,3 +355,19 @@ For more information, follow [the official Nitro guides](https://nitro.unjs.io/d
 [license-href]: https://github.com/antfu/fast-npm-meta/blob/main/LICENSE
 [jsdocs-src]: https://img.shields.io/badge/jsdocs-reference-080f12?style=flat&colorA=080f12&colorB=1fa669
 [jsdocs-href]: https://www.jsdocs.io/package/fast-npm-meta
+
+## Vercel deployment
+
+Use Node.js 22 and the workspace root. `vercel.json` runs `pnpm run build:vercel`
+and emits the Nitro Node.js function into the root `.vercel/output` directory.
+The default non-Vercel build keeps the original Netlify preset.
+
+The API routes remain `/`, `/:package`, `/versions/:package`, and
+`/full/:package`, including scoped packages and batch queries. Registry metadata
+is public and cached in memory; the service does not require a database or
+persistent filesystem. No application environment variable is required with the
+public npm registry. Existing optional Nitro runtime overrides use
+`NITRO_APP_REGISTRY_URL`, `NITRO_APP_REGISTRY_USER_AGENT`,
+`NITRO_APP_CACHE_TIMEOUT`, and `NITRO_APP_CACHE_TIMEOUT_FORCE`.
+
+See [Nitro's Vercel deployment guide](https://v2.nitro.build/deploy/providers/vercel).
