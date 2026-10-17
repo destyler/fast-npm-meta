@@ -1,11 +1,18 @@
 import { execSync } from 'node:child_process'
+import process from 'node:process'
+import { fileURLToPath } from 'node:url'
 
 const repoUrl = 'https://github.com/antfu/fast-npm-meta'
 const revision = execSync('git rev-parse HEAD').toString().trim()
 
 // https://nitro.unjs.io/config
 export default defineNitroConfig({
-  preset: 'netlify_edge',
+  preset: process.env.VERCEL ? 'vercel' : 'netlify_edge',
+
+  // Vercel builds from the workspace root, so emit the Build Output API there.
+  output: process.env.VERCEL || process.env.NITRO_PRESET === 'vercel'
+    ? { dir: fileURLToPath(new URL('../.vercel/output', import.meta.url)) }
+    : undefined,
 
   storage: {
     manifest: {

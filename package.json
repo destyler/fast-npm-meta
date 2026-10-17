@@ -3,6 +3,9 @@
   "version": "0.4.7",
   "private": true,
   "packageManager": "pnpm@10.17.1",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "build": "pnpm -r run build",
     "build:server": "pnpm -C server run build",
@@ -14,7 +17,8 @@
     "start": "tsx src/index.ts",
     "test": "vitest --typecheck",
     "typecheck": "tsc --noEmit",
-    "prepare": "simple-git-hooks"
+    "prepare": "simple-git-hooks",
+    "build:vercel": "NITRO_PRESET=vercel pnpm -C server run build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:dev",
