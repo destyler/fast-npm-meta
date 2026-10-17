@@ -3,7 +3,19 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 const repoUrl = 'https://github.com/antfu/fast-npm-meta'
-const revision = execSync('git rev-parse HEAD').toString().trim()
+function resolveRevision() {
+  if (process.env.VERCEL_GIT_COMMIT_SHA)
+    return process.env.VERCEL_GIT_COMMIT_SHA
+
+  try {
+    return execSync('git rev-parse HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim()
+  }
+  catch {
+    // CLI uploads do not necessarily include the Git checkout.
+    return 'unknown'
+  }
+}
+const revision = resolveRevision()
 
 // https://nitro.unjs.io/config
 export default defineNitroConfig({
